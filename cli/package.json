@@ -1,0 +1,26 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "format": "prettier \"**/*.ts\" --ignore-path ./.prettierignore --write",
+    "start:ts": "ts-node --transpile-only index.ts"
+  },
+  "bin": {
+    "rc": "./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/cli-color": "^2.0.6",
+    "@types/node": "^22.9.0",
+    "@types/prompts": "^2.4.9",
+    "cli-color": "^2.0.4",
+    "commander": "^12.1.0",
+    "prompts": "^2.4.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

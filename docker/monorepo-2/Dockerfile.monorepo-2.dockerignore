@@ -1,0 +1,4 @@
+node_modules
+apps/monorepo-1
+dist
+cli

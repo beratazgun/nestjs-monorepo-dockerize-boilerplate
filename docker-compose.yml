@@ -1,0 +1,79 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./data/postgres/postgres-data:/var/lib/postgresql/data
+    networks:
+      - nmdb-network
+
+  monorepo-1:
+    container_name: monorepo-1
+    build:
+      context: .
+      dockerfile: docker/monorepo-1/Dockerfile.monorepo-1
+    image: monorepo-1
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./config/.env.development
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./node_modules:/app/node_modules
+      - './apps/monorepo-1:/app/apps/monorepo-1'
+      - './libs:/app/libs'
+    command: 'npm run start:dev monorepo-1'
+    networks:
+      - nmdb-network
+    depends_on:
+      - postgres
+
+  monorepo-2:
+    container_name: monorepo-2
+    build:
+      context: .
+      dockerfile: docker/monorepo-2/Dockerfile.monorepo-2
+    image: monorepo-2
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./config/.env.development
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./node_modules:/app/node_modules
+      - './apps/monorepo-2:/app/apps/monorepo-2'
+      - './libs:/app/libs'
+    command: 'npm run start:dev monorepo-2'
+    networks:
+      - nmdb-network
+    depends_on:
+      - postgres
+
+  # this is just there to run prisma cli commands during development. You can use 'rc' to run prisma commands
+  prisma-cli:
+    container_name: prisma-cli
+    image: node:22-bullseye
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ['sleep', 'infinity']
+    depends_on:
+      - postgres
+    networks:
+      - nmdb-network
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - ./config/.env.development
+
+networks:
+  nmdb-network:
+    driver: bridge
