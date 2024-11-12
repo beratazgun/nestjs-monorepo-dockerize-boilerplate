@@ -17,3 +17,7 @@ Bu proje, NestJS kullanarak oluşturulmuş bir monorepo yapısıdır ve Docker i
 Çevre değişkenlerini config/.env.development dosyasından ayarlayabilirsiniz.
 
 ## Kurulum
+
+
+https://github.com/user-attachments/assets/73132f7c-f095-43be-9e29-a185865006d2
+
